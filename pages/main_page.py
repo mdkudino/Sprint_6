@@ -1,10 +1,10 @@
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
 import allure
 
 # Главная страница сервиса Самокат
-class MainPage:
+class MainPage(BasePage):
     cookies_button = [By.XPATH, ".//button[contains(@class, 'Cookie')]"] # Кнопка подтверждения использования куков
     top_order_button = [By.CLASS_NAME, 'Button_Button__ra12g'] # Верхняя кнопка Заказать
     bottom_order_button = [By.XPATH, ".//button[text()='Заказать' and contains(@class, 'Button_Middle')]"] # Нижняя кнопка Заказать
@@ -13,37 +13,37 @@ class MainPage:
     header_scooter = [By.XPATH, ".//div[contains(text(), 'Самокат') and contains(@class, 'Home_Header')]"] # Заглавный текст
 
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
 
     @allure.step('Кликаем на вопрос')
     def click_faq_item(self, item_num):
-        faq_elem = self.driver.find_element(*self.faq_items[item_num])
-        self.driver.execute_script("arguments[0].scrollIntoView();", faq_elem)
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self.faq_items[item_num]))
-        faq_elem.click()
-
+        super().scroll_and_click_element(self.faq_items[item_num])
+    
+    @allure.step('Проверяем отображение элемента')
     def is_faq_answer_visible(self, item_num):
-        return self.driver.find_element(*self.answer_faq_items[item_num]).get_attribute('hidden') is None
+        return super().get_element(self.answer_faq_items[item_num]).get_attribute('hidden') is None
     
     @allure.step('Делаем заказ по верхней кнопке')
     def make_order_top_button(self):
         try:
-            self.driver.find_element(*self.cookies_button).click()
-        except Exception:
+            super().click_element(self.cookies_button)
+        except NoSuchElementException:
             pass
-        self.driver.find_element(*self.top_order_button).click()
+        super().click_element(self.top_order_button)
 
     @allure.step('Делаем заказ по нижней кнопке')
     def make_order_bottom_button(self):
-        button = self.driver.find_element(*self.bottom_order_button)
-        self.driver.execute_script("arguments[0].scrollIntoView();", button)
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self.bottom_order_button))
-        button.click()
+        try:
+            super().click_element(self.cookies_button)
+        except NoSuchElementException:
+            pass
+        super().scroll_and_click_element(self.bottom_order_button)
 
     @allure.step('Ждем загрузки страницы')
     def wait_for_load_page(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self.header_scooter))
+        super().wait_for_element_visible(self.header_scooter)
 
+    @allure.step('Получаем заглавный текст') 
     def get_header_text(self):
-        return self.driver.find_element(*self.header_scooter).get_attribute("innerText")
+        return self.get_element(self.header_scooter).get_attribute("innerText")
     

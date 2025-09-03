@@ -1,21 +1,14 @@
-from selenium import webdriver
 from pages.main_page import MainPage
 from pages.order_form_page import OrderFormPage
 from pages.rent_form_page import RentFormPage
 from pages.confirm_order_page import ConfirmOrderPage
 from pages.order_info_page import OrderInfoPage
 from pages.track_order_page import TrackOrderPage
+from test_data import test_data
 import pytest
 import allure
 
 class TestOrder:
-
-    driver = None
-    main_url = "https://qa-scooter.praktikum-services.ru/"
-
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
 
     @allure.title('Проверка позитивного сценария заказа') 
     @allure.description('Нажимаем кнопку Заказать (сверху или снизу - параметр), ' \
@@ -33,11 +26,12 @@ class TestOrder:
         'color, ' \
         'comment',
         [
-            [0, 'Мария', 'Петрова', 'ул. Ленина, д.13', "Черкизовская", "+79321233254", "10.10.2025", "двое суток", 0, "Test"],
-            [1, 'Светлана', 'Иванова', 'пл. Свободы, д.32', "Сокольники", "+79105746381", "23.09.2025", "сутки", 1, ""],
+            test_data[0],
+            test_data[1],
         ]
     )
     def test_order(self, 
+                   driver,
                    order_button_id,
                    first_name,
                    last_name, 
@@ -49,12 +43,11 @@ class TestOrder:
                    color, 
                    comment):
         
-        self.driver.get(self.main_url)
-        main_page = MainPage(self.driver)
-        order_page = OrderFormPage(self.driver)
-        rent_page = RentFormPage(self.driver)
-        confirm_order_page = ConfirmOrderPage(self.driver)
-        order_info_page = OrderInfoPage(self.driver)
+        main_page = MainPage(driver)
+        order_page = OrderFormPage(driver)
+        rent_page = RentFormPage(driver)
+        confirm_order_page = ConfirmOrderPage(driver)
+        order_info_page = OrderInfoPage(driver)
         
         if order_button_id == 0:
             main_page.make_order_top_button()
@@ -72,7 +65,7 @@ class TestOrder:
         
         order_info_page.wait_for_load_info_page()
 
-        assert order_info_page.is_page_visible() == True
+        assert order_info_page.is_page_visible()
 
     @allure.title('Проверка перехода на главную страницу при нажатии на логотип Самокат') 
     @allure.description('Нажимаем кнопку Заказать, ' \
@@ -90,10 +83,11 @@ class TestOrder:
         'color, ' \
         'comment',
         [
-            [0, 'Мария', 'Петрова', 'ул. Ленина, д.13', "Черкизовская", "+79321233254", "10.10.2025", "двое суток", 0, "Test"],
+            test_data[0],
         ]
     )
     def test_main_page_link(self, 
+                            driver,
                             order_button_id,
                             first_name,
                             last_name, 
@@ -104,14 +98,12 @@ class TestOrder:
                             rent_period,
                             color, 
                             comment):
-        
-        self.driver.get(self.main_url)
-        main_page = MainPage(self.driver)
-        order_page = OrderFormPage(self.driver)
-        rent_page = RentFormPage(self.driver)
-        confirm_order_page = ConfirmOrderPage(self.driver)
-        order_info_page = OrderInfoPage(self.driver)
-        track_order_page = TrackOrderPage(self.driver)
+        main_page = MainPage(driver)
+        order_page = OrderFormPage(driver)
+        rent_page = RentFormPage(driver)
+        confirm_order_page = ConfirmOrderPage(driver)
+        order_info_page = OrderInfoPage(driver)
+        track_order_page = TrackOrderPage(driver)
         
         if order_button_id == 0:
             main_page.make_order_top_button()
@@ -152,10 +144,11 @@ class TestOrder:
         'color, ' \
         'comment',
         [
-            [0, 'Мария', 'Петрова', 'ул. Ленина, д.13', "Черкизовская", "+79321233254", "10.10.2025", "двое суток", 0, "Test"],
+            test_data[0],
         ]
     )
     def test_yandex_link(   self, 
+                            driver,
                             order_button_id,
                             first_name,
                             last_name, 
@@ -166,14 +159,12 @@ class TestOrder:
                             rent_period,
                             color, 
                             comment):
-        
-        self.driver.get(self.main_url)
-        main_page = MainPage(self.driver)
-        order_page = OrderFormPage(self.driver)
-        rent_page = RentFormPage(self.driver)
-        confirm_order_page = ConfirmOrderPage(self.driver)
-        order_info_page = OrderInfoPage(self.driver)
-        track_order_page = TrackOrderPage(self.driver)
+        main_page = MainPage(driver)
+        order_page = OrderFormPage(driver)
+        rent_page = RentFormPage(driver)
+        confirm_order_page = ConfirmOrderPage(driver)
+        order_info_page = OrderInfoPage(driver)
+        track_order_page = TrackOrderPage(driver)
         
         if order_button_id == 0:
             main_page.make_order_top_button()
@@ -195,9 +186,4 @@ class TestOrder:
         track_order_page.wait_for_load_page()
         track_order_page.go_to_dzen()
 
-        assert "dzen.ru" in self.driver.current_url
-
-
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit() 
+        assert "dzen.ru" in driver.current_url
