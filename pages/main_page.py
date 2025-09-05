@@ -36,21 +36,19 @@ class MainPage(BasePage):
     def is_only_faq_answer_visible(self, index):
         return self.get_visible_faq_elements_indexes() == [index]
     
-    @allure.step('Делаем заказ по верхней кнопке')
-    def make_order_top_button(self):
-        try:
-            self.click_element(self.cookies_button)
-        except NoSuchElementException:
-            pass
-        self.click_element(self.top_order_button)
+    @allure.step('Делаем заказ')
+    def make_order(self, order_button_id):
+        locator = self.top_order_button
 
-    @allure.step('Делаем заказ по нижней кнопке')
-    def make_order_bottom_button(self):
+        if order_button_id == 0:
+            locator = self.top_order_button
+        elif order_button_id == 1:
+            locator = self.bottom_order_button
         try:
             self.click_element(self.cookies_button)
         except NoSuchElementException:
             pass
-        self.scroll_and_click_element(self.bottom_order_button)
+        self.scroll_and_click_element(locator)
 
     @allure.step('Ждем загрузки страницы')
     def wait_for_load_page(self):

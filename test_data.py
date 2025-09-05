@@ -4,3 +4,5 @@ test_data = [
 ]
 
 faq_indexes = [0, 1, 2, 3, 4, 5, 6, 7]
+
+main_url = "https://qa-scooter.praktikum-services.ru/"

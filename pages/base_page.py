@@ -27,6 +27,7 @@ class BasePage:
 
     def wait_for_url_load(self, url):
          WebDriverWait(self.driver, 3).until(expected_conditions.url_contains(url))
+         return self.driver.current_url
 
     def fill_input(self, locator, text):
         self.driver.find_element(*locator).send_keys(text)

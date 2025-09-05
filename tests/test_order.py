@@ -49,11 +49,7 @@ class TestOrder:
         confirm_order_page = ConfirmOrderPage(driver)
         order_info_page = OrderInfoPage(driver)
         
-        if order_button_id == 0:
-            main_page.make_order_top_button()
-        else:
-            main_page.make_order_bottom_button()
-        
+        main_page.make_order(order_button_id)
         order_page.wait_for_load_order_page()
         order_page.fill_order_form(first_name, last_name, address, metro_station, phone_number)
        
@@ -105,10 +101,7 @@ class TestOrder:
         order_info_page = OrderInfoPage(driver)
         track_order_page = TrackOrderPage(driver)
         
-        if order_button_id == 0:
-            main_page.make_order_top_button()
-        else:
-            main_page.make_order_bottom_button()
+        main_page.make_order(order_button_id)
         
         order_page.wait_for_load_order_page()
         order_page.fill_order_form(first_name, last_name, address, metro_station, phone_number)
@@ -166,11 +159,7 @@ class TestOrder:
         order_info_page = OrderInfoPage(driver)
         track_order_page = TrackOrderPage(driver)
         
-        if order_button_id == 0:
-            main_page.make_order_top_button()
-        else:
-            main_page.make_order_bottom_button()
-        
+        main_page.make_order(order_button_id)
         order_page.wait_for_load_order_page()
         order_page.fill_order_form(first_name, last_name, address, metro_station, phone_number)
        
@@ -184,6 +173,6 @@ class TestOrder:
         order_info_page.see_order_status()
 
         track_order_page.wait_for_load_page()
-        track_order_page.go_to_dzen()
+        current_url = track_order_page.go_to_dzen()
 
-        assert "dzen.ru" in driver.current_url
+        assert "dzen.ru" in current_url

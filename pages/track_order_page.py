@@ -25,4 +25,4 @@ class TrackOrderPage(BasePage):
         self.click_element(self.yandex_logo)
         self.switch_to_another_tab()
         url_dzen = "dzen.ru"
-        self.wait_for_url_load(url_dzen)
+        return self.wait_for_url_load(url_dzen)
