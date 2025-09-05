@@ -14,15 +14,15 @@ class TrackOrderPage(BasePage):
     @allure.step('Ждем загрузки страницы с отслеживанием заказа')
     def wait_for_load_page(self):
         url_part = "track"
-        super().wait_for_url_load(url_part)
+        self.wait_for_url_load(url_part)
 
     @allure.step('Кликаем на логотип Самокат - переходим на главную страницу')
     def go_to_main_page(self):
-        super().click_element(self.scooter_logo)
+        self.click_element(self.scooter_logo)
     
     @allure.step('Кликаем на логотип Яндекс - переходим на страницу Дзена')
     def go_to_dzen(self):
-        super().click_element(self.yandex_logo)
-        super().switch_to_another_tab()
+        self.click_element(self.yandex_logo)
+        self.switch_to_another_tab()
         url_dzen = "dzen.ru"
-        super().wait_for_url_load(url_dzen)
+        self.wait_for_url_load(url_dzen)

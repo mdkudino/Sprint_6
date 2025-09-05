@@ -14,15 +14,15 @@ class ConfirmOrderPage(BasePage):
     
     @allure.step('Дожидаемся загрузки всплывающего окна')
     def wait_for_load_confirm_page(self):
-        super().wait_for_element_visible(self.confirm_order_modal)
+        self.wait_for_element_visible(self.confirm_order_modal)
 
     @allure.step('Подтверждаем заказ - нажимаем кнопку Да')    
     def confirm_order(self):
-        super().click_element(self.confirm_order_button)
+        self.click_element(self.confirm_order_button)
 
     @allure.step('Отменяпм заказ - нажимаем кнопку Нет')
     def cancel_order(self):
-        super().click_element(self.cancel_order_button)
+        self.click_element(self.cancel_order_button)
    
 
     

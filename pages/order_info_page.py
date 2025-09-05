@@ -13,13 +13,13 @@ class OrderInfoPage(BasePage):
     
     @allure.step('Ждем загрузки окна со статусом')
     def wait_for_load_info_page(self):
-        super().wait_for_element_visible(self.see_status_button)
+        self.wait_for_element_visible(self.see_status_button)
 
     @allure.step('Проверяем, есть ли текст со статусом заказа в окне')
     def is_page_visible(self):
-        return "Номер заказа" in super().get_element(self.status_info_text).get_attribute("innerText") and \
-            "Посмотреть статус" in super().get_element(self.see_status_button).text
+        return "Номер заказа" in self.get_element(self.status_info_text).get_attribute("innerText") and \
+            "Посмотреть статус" in self.get_element(self.see_status_button).text
     
     @allure.step('Нажимаем на кнопку Посмотрет статус')
     def see_order_status(self):
-        super().click_element(self.see_status_button)
+        self.click_element(self.see_status_button)
